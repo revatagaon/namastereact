@@ -1,0 +1,24 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "This is first react app without create-react-app by Praveen",
+  "scripts": {
+    "start":"parcel index.html",
+    "build":"parcel build index.html",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Praveen Revatagaon",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.12.0",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "browsersList" :[
+    "last 2 vresions"
+  ]
+}
