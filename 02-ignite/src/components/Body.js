@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 // import resList from "../utils/mockData";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from './Shimmer';
+import { Link } from 'react-router-dom';
 
 const Body = () => {
   // Local State variable - whixh is super powerful variable
@@ -19,7 +20,6 @@ const Body = () => {
     // const data = await fetch("https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING")
     const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING")
     const json = await data.json();
-    debugger
     // Optional chaining
     setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
     setFilteredRestaurant(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
@@ -42,8 +42,7 @@ const Body = () => {
             onChange={(e) => setSearchText(e.target.value)} />
           <button onClick={() => {
             const filteredData = listOfRestaurants.filter((res) => {
-              debugger
-             return res.info.name.toLowerCase().includes(searchText.toLowerCase())
+              return res.info.name.toLowerCase().includes(searchText.toLowerCase())
             })
             setFilteredRestaurant(filteredData)
           }}>Search</button>
@@ -56,7 +55,11 @@ const Body = () => {
         >Top Rated Restaurants</button>
       </div>
       <div className="res-container">
-        {filteredRestaurant?.map(restaurant => <RestaurantCard key={restaurant.info.id} resData={restaurant} />)}
+        {filteredRestaurant?.map(restaurant =>
+          <Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}>
+            <RestaurantCard resData={restaurant} />
+          </Link>
+        )}
       </div>
     </div>
   )
