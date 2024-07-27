@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 // import resList from "../utils/mockData";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import Shimmer from './Shimmer';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from '../utils/useOnlineStauts';
+import UserContext from '../utils/UserContext';
 
 const Body = () => {
   // Local State variable - whixh is super powerful variable
@@ -37,6 +38,10 @@ const Body = () => {
 
   const onlineStatus = useOnlineStatus();
 
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard)
+
+  const { loggedInUser, setUserName } = useContext(UserContext)
+
   if (onlineStatus === false) {
     return (
       <h1>Looks like you're offline, Please check your internet connection</h1>
@@ -65,11 +70,20 @@ const Body = () => {
             }}
           >Top Rated Restaurants</button>
         </div>
+        <div className="flex items-center px-4 py-2">
+          <label >UserName : </label>
+          <input className="border border-black p-2" value={loggedInUser}
+            onChange={(e) => setUserName(e.target.value)} />
+        </div>
       </div>
       <div className="flex flex-wrap">
         {filteredRestaurant?.map(restaurant =>
           <Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}>
-            <RestaurantCard resData={restaurant} />
+            {
+              (restaurant.info.avgRatingString === "3.8" || restaurant.info.avgRatingString === "3.9") ?
+                <RestaurantCardPromoted resData={restaurant} /> : <RestaurantCard resData={restaurant} />
+            }
+
           </Link>
         )}
       </div>
