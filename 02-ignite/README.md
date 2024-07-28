@@ -21,3 +21,11 @@
   *   - Links
   *   - Address
   *   - Contact
+
+  # Redux Toolkit
+    - Install @reduxjs/toolkit and react-redux
+    - Build our Store
+    - Connect our store to our app
+    - Create a slice, slice(cartSlice)
+    - Dispatch an action, dispatch(action)
+    - Read the data, selector()
