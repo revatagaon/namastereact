@@ -30,11 +30,11 @@ const Body = () => {
   }
 
   // state can also be writen as follows
-  const data = useState([]);
-  [names, setNames] = data;
+  // const data = useState([]);
+  // [names, setNames] = data;
   // OR
-  xyz = data[0]
-  setXyz = data[1]
+  // xyz = data[0]
+  // setXyz = data[1]
 
   const onlineStatus = useOnlineStatus();
 
@@ -48,12 +48,18 @@ const Body = () => {
     )
   }
 
+  console.log("listOfRestaurants", listOfRestaurants);
+
   return listOfRestaurants?.length === 0 ? <Shimmer /> : (
     <div className="body">
       <div className="flex">
         <div className="p-4 m-4">
-          <input type='text' className="border border-solid border-black" value={searchText}
-            onChange={(e) => setSearchText(e.target.value)} />
+          <input type='text'
+            data-testid="searchInput"
+            className="border border-solid border-black"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
           <button className="px-4 py-2 m-4 bg-green-100 rounded-lg"
             onClick={() => {
               const filteredData = listOfRestaurants.filter((res) => {
@@ -65,8 +71,8 @@ const Body = () => {
         <div className="flex items-center">
           <button className="px-4 py-2 bg-gray-200 rounded-lg"
             onClick={() => {
-              let filteredList = listOfRestaurants.filter((res) => res.info.avgRatingString > "4.4")
-              setListOfRestaurants(filteredList)
+              let filteredList = listOfRestaurants.filter((res) => Number(res.info.avgRatingString) > 4.4)
+              setFilteredRestaurant([...filteredList])
             }}
           >Top Rated Restaurants</button>
         </div>
@@ -80,8 +86,8 @@ const Body = () => {
         {filteredRestaurant?.map(restaurant =>
           <Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}>
             {
-              (restaurant.info.avgRatingString === "3.8" || restaurant.info.avgRatingString === "3.9") ?
-                <RestaurantCardPromoted resData={restaurant} /> : <RestaurantCard resData={restaurant} />
+              (Number(restaurant.info.avgRatingString) === 3.8 || Number(restaurant.info.avgRatingString) === 3.9) ?
+                (<RestaurantCardPromoted resData={restaurant} />) : (<RestaurantCard resData={restaurant} />)
             }
 
           </Link>
